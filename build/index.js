@@ -144,7 +144,9 @@ registerBlockType('project-block/main', {
       name: 'White',
       slug: 'white',
       color: '#ffffff'
-    }];
+    }]; // Check if the background color is dark. If it is, we will assign a class to lighten the text
+
+    var hasDarkBackground = attributes.projectBackgroundColor === '#383838' ? 'lightenText' : '';
     return [Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, {
       title: 'Settings',
       initialOpen: true
@@ -171,7 +173,7 @@ registerBlockType('project-block/main', {
       },
       value: attributes.title,
       placeholder: "Project title",
-      className: "heading",
+      className: "heading ".concat(hasDarkBackground),
       style: {
         backgroundColor: attributes.projectBackgroundColor
       }
@@ -179,16 +181,22 @@ registerBlockType('project-block/main', {
   },
   save: function save(_ref2) {
     var attributes = _ref2.attributes;
+    // Check if the background color is dark. If it is, we will assign a class to lighten the text
+    var hasDarkBackground = attributes.projectBackgroundColor === '#383838' ? 'lightenText' : '';
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
       href: "#",
-      className: "projectItem",
-      style: {
+      className: "projectItem ".concat(hasDarkBackground) // If the post does not have a dark background we will assign the color of the text to #383838.
+      ,
+      style: !hasDarkBackground ? {
+        color: '#383838',
+        backgroundColor: attributes.projectBackgroundColor
+      } : {
         backgroundColor: attributes.projectBackgroundColor
       }
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "projectContent"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", {
-      className: "projectTitle"
+      className: "projectTitle ".concat(hasDarkBackground)
     }, attributes.title), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "projectDescription"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "Project Description will go here"))));

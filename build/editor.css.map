@@ -1,1 +1,1 @@
-{"version":3,"sources":["webpack:///./src/blocks/block/editor.scss"],"names":[],"mappings":"AAAA,aACI,qBAAsB,CACtB,YAAa","file":"editor.css","sourcesContent":[".projectWrap {\n    border: 1px solid #ccc;\n    padding: 1rem;\n  }"],"sourceRoot":""}
+{"version":3,"sources":["webpack:///./src/blocks/block/editor.scss"],"names":[],"mappings":"AAAA,aACI,qBAAsB,CACtB,YAAa,CAFjB,0BAIM,aAAc","file":"editor.css","sourcesContent":[".projectWrap {\n    border: 1px solid #ccc;\n    padding: 1rem;\n    .lightenText {\n      color: #f7f7f7;\n    }\n  }"],"sourceRoot":""}

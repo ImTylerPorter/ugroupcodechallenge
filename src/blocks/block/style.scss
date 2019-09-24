@@ -4,4 +4,7 @@
 	padding: 1rem;
 	border-radius: 2px;
 	display: block;
+	&.lightenText {
+		color: #f7f7f7;
+	}
 }

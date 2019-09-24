@@ -58,6 +58,9 @@ registerBlockType('project-block/main', {
             }
         ];
 
+        // Check if the background color is dark. If it is, we will assign a class to lighten the text
+        let hasDarkBackground = attributes.projectBackgroundColor === '#383838' ? 'lightenText' : '';
+
         return [
             <InspectorControls>
                 <PanelBody
@@ -83,19 +86,26 @@ registerBlockType('project-block/main', {
                     onChange={content => setAttributes({ title: content })}
                     value={attributes.title}
                     placeholder="Project title"
-                    className="heading"
+                    className={`heading ${hasDarkBackground}`}
                     style={{ backgroundColor: attributes.projectBackgroundColor }}
                 />
             </div>
         ];
     },
     save({ attributes }) {
-
+        // Check if the background color is dark. If it is, we will assign a class to lighten the text
+        let hasDarkBackground = attributes.projectBackgroundColor === '#383838' ? 'lightenText' : '';
         return (
-            <a href="#" className="projectItem" style={{ backgroundColor: attributes.projectBackgroundColor }}>
-                <div className="projectContent">
-                    <h3 className="projectTitle">{attributes.title}</h3>
-                    <div className="projectDescription">
+            <a
+                href="#"
+                className={`projectItem ${hasDarkBackground}`}
+                // If the post does not have a dark background we will assign the color of the text to #383838.
+                style={!hasDarkBackground ?
+                    { color: '#383838', backgroundColor: attributes.projectBackgroundColor } :
+                    { backgroundColor: attributes.projectBackgroundColor }}>
+                <div className="projectContent"  >
+                    <h3 className={`projectTitle ${hasDarkBackground}`}>{attributes.title}</h3>
+                    <div className={`projectDescription`} >
                         <p>Project Description will go here</p>
                     </div>
                 </div>

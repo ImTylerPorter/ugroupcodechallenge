@@ -88,10 +88,21 @@ var _wp$editor = wp.editor,
     InspectorControls = _wp$editor.InspectorControls,
     PanelColorSettings = _wp$editor.PanelColorSettings;
 var registerBlockType = wp.blocks.registerBlockType;
-var PanelBody = wp.components.PanelBody;
+var PanelBody = wp.components.PanelBody; // Define custom U Group logo for icon usage
+
+var uGroupIcon = function uGroupIcon() {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("svg", {
+    width: "20px",
+    height: "20px",
+    viewBox: "0 0 143.7 143.7"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("path", {
+    d: "M0,0V143.7H143.7V0ZM71.8,108.3a34,34,0,0,1-34-34v-33H55.7v33a16,16,0,0,0,32,0v-33h17.9v33h.2A34,34,0,0,1,71.8,108.3Z"
+  }));
+};
+
 registerBlockType('project-block/main', {
   title: 'Project',
-  icon: 'admin-appearance',
+  icon: uGroupIcon,
   category: 'common',
   attributes: {
     title: {

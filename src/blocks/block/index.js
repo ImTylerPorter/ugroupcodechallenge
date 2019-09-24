@@ -3,9 +3,16 @@ const { PlainText, InspectorControls, PanelColorSettings } = wp.editor;
 const { registerBlockType } = wp.blocks;
 const { PanelBody } = wp.components;
 
+// Define custom U Group logo for icon usage
+const uGroupIcon = () => (
+    <svg width="20px" height="20px" viewBox="0 0 143.7 143.7">
+        <path d="M0,0V143.7H143.7V0ZM71.8,108.3a34,34,0,0,1-34-34v-33H55.7v33a16,16,0,0,0,32,0v-33h17.9v33h.2A34,34,0,0,1,71.8,108.3Z" />
+    </svg>
+)
+
 registerBlockType('project-block/main', {
     title: 'Project',
-    icon: 'admin-appearance',
+    icon: uGroupIcon,
     category: 'common',
     attributes: {
         title: {

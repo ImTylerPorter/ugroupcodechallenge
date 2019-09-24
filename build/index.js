@@ -86,7 +86,8 @@ __webpack_require__.r(__webpack_exports__);
 var _wp$editor = wp.editor,
     PlainText = _wp$editor.PlainText,
     InspectorControls = _wp$editor.InspectorControls,
-    PanelColorSettings = _wp$editor.PanelColorSettings;
+    PanelColorSettings = _wp$editor.PanelColorSettings,
+    RichText = _wp$editor.RichText;
 var registerBlockType = wp.blocks.registerBlockType;
 var PanelBody = wp.components.PanelBody; // Define custom U Group logo for icon usage
 
@@ -108,6 +109,11 @@ registerBlockType('project-block/main', {
     title: {
       source: 'text',
       selector: '.projectTitle'
+    },
+    description: {
+      type: 'array',
+      source: 'children',
+      selector: '.projectDescription'
     },
     projectBackgroundColor: {
       type: 'string'
@@ -177,6 +183,16 @@ registerBlockType('project-block/main', {
       style: {
         backgroundColor: attributes.projectBackgroundColor
       }
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      onChange: function onChange(content) {
+        return setAttributes({
+          description: content
+        });
+      },
+      value: attributes.description,
+      multiline: "p",
+      placeholder: "Add a description",
+      className: hasDarkBackground
     }))];
   },
   save: function save(_ref2) {
@@ -199,7 +215,7 @@ registerBlockType('project-block/main', {
       className: "projectTitle ".concat(hasDarkBackground)
     }, attributes.title), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "projectDescription"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "Project Description will go here"))));
+    }, attributes.description)));
   }
 });
 

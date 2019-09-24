@@ -1,5 +1,5 @@
 
-const { PlainText, InspectorControls, PanelColorSettings } = wp.editor;
+const { PlainText, InspectorControls, PanelColorSettings, RichText } = wp.editor;
 const { registerBlockType } = wp.blocks;
 const { PanelBody } = wp.components;
 
@@ -18,6 +18,11 @@ registerBlockType('project-block/main', {
         title: {
             source: 'text',
             selector: '.projectTitle'
+        },
+        description: {
+            type: 'array',
+            source: 'children',
+            selector: '.projectDescription'
         },
         projectBackgroundColor: {
             type: 'string'
@@ -89,6 +94,13 @@ registerBlockType('project-block/main', {
                     className={`heading ${hasDarkBackground}`}
                     style={{ backgroundColor: attributes.projectBackgroundColor }}
                 />
+                <RichText
+                    onChange={content => setAttributes({ description: content })}
+                    value={attributes.description}
+                    multiline="p"
+                    placeholder="Add a description"
+                    className={hasDarkBackground}
+                />
             </div>
         ];
     },
@@ -106,7 +118,7 @@ registerBlockType('project-block/main', {
                 <div className="projectContent"  >
                     <h3 className={`projectTitle ${hasDarkBackground}`}>{attributes.title}</h3>
                     <div className={`projectDescription`} >
-                        <p>Project Description will go here</p>
+                        {attributes.description}
                     </div>
                 </div>
             </a>

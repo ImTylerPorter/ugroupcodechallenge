@@ -83,8 +83,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
-var PlainText = wp.editor.PlainText;
+var _wp$editor = wp.editor,
+    PlainText = _wp$editor.PlainText,
+    InspectorControls = _wp$editor.InspectorControls,
+    PanelColorSettings = _wp$editor.PanelColorSettings;
 var registerBlockType = wp.blocks.registerBlockType;
+var PanelBody = wp.components.PanelBody;
 registerBlockType('project-block/main', {
   title: 'Project',
   icon: 'admin-appearance',
@@ -93,13 +97,38 @@ registerBlockType('project-block/main', {
     title: {
       source: 'text',
       selector: '.projectTitle'
+    },
+    projectBackgroundColor: {
+      type: 'string'
     }
   },
   edit: function edit(_ref) {
     var attributes = _ref.attributes,
         setAttributes = _ref.setAttributes;
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "projectWrap"
+
+    function onChangeBackgroundColor(newBackground) {
+      setAttributes({
+        projectBackgroundColor: newBackground
+      });
+    }
+
+    return [Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, {
+      title: 'Settings',
+      initialOpen: true
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelColorSettings, {
+      title: 'Block Background Color',
+      colorValue: attributes.projectBackgroundColor,
+      initialOpen: false,
+      colorSettings: [{
+        value: attributes.projectBackgroundColor,
+        onChange: onChangeBackgroundColor,
+        label: 'Choose a background color'
+      }]
+    }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "projectWrap",
+      style: {
+        backgroundColor: attributes.projectBackgroundColor
+      }
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PlainText, {
       onChange: function onChange(content) {
         return setAttributes({
@@ -108,14 +137,17 @@ registerBlockType('project-block/main', {
       },
       value: attributes.title,
       placeholder: "Project title",
-      className: "heading"
-    }));
+      className: "heading",
+      style: {
+        backgroundColor: attributes.projectBackgroundColor
+      }
+    }))];
   },
   save: function save(_ref2) {
     var attributes = _ref2.attributes;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
       href: "#",
-      className: "project"
+      className: "projectItem"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "projectContent"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", {

@@ -1,6 +1,7 @@
 
-const { PlainText } = wp.editor;
+const { PlainText, InspectorControls, PanelColorSettings } = wp.editor;
 const { registerBlockType } = wp.blocks;
+const { PanelBody } = wp.components;
 
 registerBlockType('project-block/main', {
     title: 'Project',
@@ -11,25 +12,50 @@ registerBlockType('project-block/main', {
             source: 'text',
             selector: '.projectTitle'
         },
+        projectBackgroundColor: {
+            type: 'string'
+        },
     },
     edit({ attributes, setAttributes }) {
 
-        return (
+        function onChangeBackgroundColor(newBackground) {
+            setAttributes({ projectBackgroundColor: newBackground });
+        }
 
-            <div className="projectWrap" >
+        return [
+            <InspectorControls>
+                <PanelBody
+                    title={'Settings'}
+                    initialOpen={true}
+                >
+                    <PanelColorSettings
+                        title={'Block Background Color'}
+                        colorValue={attributes.projectBackgroundColor}
+                        initialOpen={false}
+                        colorSettings={[{
+                            value: attributes.projectBackgroundColor,
+                            onChange: onChangeBackgroundColor,
+                            label: 'Choose a background color',
+                        }]}
+                    >
+                    </PanelColorSettings>
+                </PanelBody>
+            </InspectorControls>,
+            <div className="projectWrap" style={{ backgroundColor: attributes.projectBackgroundColor }}>
                 <PlainText
                     onChange={content => setAttributes({ title: content })}
                     value={attributes.title}
                     placeholder="Project title"
                     className="heading"
+                    style={{ backgroundColor: attributes.projectBackgroundColor }}
                 />
             </div>
-        );
+        ];
     },
     save({ attributes }) {
 
         return (
-            <a href="#" className="project">
+            <a href="#" className="projectItem">
                 <div className="projectContent">
                     <h3 className="projectTitle">{attributes.title}</h3>
                     <div className="projectDescription">

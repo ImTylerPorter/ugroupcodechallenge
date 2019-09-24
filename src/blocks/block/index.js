@@ -55,7 +55,7 @@ registerBlockType('project-block/main', {
     save({ attributes }) {
 
         return (
-            <a href="#" className="projectItem">
+            <a href="#" className="projectItem" style={{ backgroundColor: attributes.projectBackgroundColor }}>
                 <div className="projectContent">
                     <h3 className="projectTitle">{attributes.title}</h3>
                     <div className="projectDescription">

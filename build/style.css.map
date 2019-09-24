@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"style.css","sourceRoot":""}
+{"version":3,"sources":["webpack:///./src/blocks/block/style.scss"],"names":[],"mappings":"AACA,aACC,qBAAsB,CACtB,YAAa,CACb,iBAAkB,CAClB,aAAc","file":"style.css","sourcesContent":["\n.projectItem {\n\tborder: 1px solid #ccc;\n\tpadding: 1rem;\n\tborder-radius: 2px;\n\tdisplay: block;\n}\n"],"sourceRoot":""}

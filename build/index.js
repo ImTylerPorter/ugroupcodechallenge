@@ -147,7 +147,10 @@ registerBlockType('project-block/main', {
     var attributes = _ref2.attributes;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
       href: "#",
-      className: "projectItem"
+      className: "projectItem",
+      style: {
+        backgroundColor: attributes.projectBackgroundColor
+      }
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "projectContent"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", {

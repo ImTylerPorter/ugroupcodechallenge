@@ -29,6 +29,35 @@ registerBlockType('project-block/main', {
             setAttributes({ projectBackgroundColor: newBackground });
         }
 
+        // Define custom colors. Great oppertunity for branding.
+        const customColors = [
+            {
+                name: 'Green',
+                slug: 'green',
+                color: '#0dc966',
+            },
+            {
+                name: 'Dark',
+                slug: 'dark',
+                color: '#383838',
+            },
+            {
+                name: 'Gray',
+                slug: 'gray',
+                color: '#aaa',
+            },
+            {
+                name: 'Light Gray',
+                slug: 'light-gray',
+                color: '#cdcdcd',
+            },
+            {
+                name: 'White',
+                slug: 'white',
+                color: '#ffffff',
+            }
+        ];
+
         return [
             <InspectorControls>
                 <PanelBody
@@ -43,6 +72,7 @@ registerBlockType('project-block/main', {
                             value: attributes.projectBackgroundColor,
                             onChange: onChangeBackgroundColor,
                             label: 'Choose a background color',
+                            colors: customColors
                         }]}
                     >
                     </PanelColorSettings>

@@ -121,8 +121,30 @@ registerBlockType('project-block/main', {
       setAttributes({
         projectBackgroundColor: newBackground
       });
-    }
+    } // Define custom colors. Great oppertunity for branding.
 
+
+    var customColors = [{
+      name: 'Green',
+      slug: 'green',
+      color: '#0dc966'
+    }, {
+      name: 'Dark',
+      slug: 'dark',
+      color: '#383838'
+    }, {
+      name: 'Gray',
+      slug: 'gray',
+      color: '#aaa'
+    }, {
+      name: 'Light Gray',
+      slug: 'light-gray',
+      color: '#cdcdcd'
+    }, {
+      name: 'White',
+      slug: 'white',
+      color: '#ffffff'
+    }];
     return [Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, {
       title: 'Settings',
       initialOpen: true
@@ -133,7 +155,8 @@ registerBlockType('project-block/main', {
       colorSettings: [{
         value: attributes.projectBackgroundColor,
         onChange: onChangeBackgroundColor,
-        label: 'Choose a background color'
+        label: 'Choose a background color',
+        colors: customColors
       }]
     }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "projectWrap",

@@ -88,7 +88,9 @@ var _wp$editor = wp.editor,
     InspectorControls = _wp$editor.InspectorControls,
     PanelColorSettings = _wp$editor.PanelColorSettings,
     RichText = _wp$editor.RichText,
-    MediaUpload = _wp$editor.MediaUpload;
+    MediaUpload = _wp$editor.MediaUpload,
+    ExternalLink = _wp$editor.ExternalLink,
+    URLInputButton = _wp$editor.URLInputButton;
 var registerBlockType = wp.blocks.registerBlockType;
 var _wp$components = wp.components,
     PanelBody = _wp$components.PanelBody,
@@ -127,6 +129,13 @@ registerBlockType('project-block/main', {
       selector: '.card__image'
     },
     projectBackgroundColor: {
+      type: 'string'
+    },
+    url: {
+      type: 'string'
+    },
+    // This is likely the Page or Post title
+    linkText: {
       type: 'string'
     }
   },
@@ -199,7 +208,15 @@ registerBlockType('project-block/main', {
       style: {
         backgroundColor: attributes.projectBackgroundColor
       }
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(URLInputButton, {
+      url: attributes.url,
+      onChange: function onChange(url, post) {
+        return setAttributes({
+          url: url,
+          linkText: post && post.title || 'Click here'
+        });
+      }
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
       onSelect: function onSelect(media) {
         setAttributes({
           imageAlt: media.alt,
@@ -262,7 +279,7 @@ registerBlockType('project-block/main', {
 
     var hasDarkBackground = attributes.projectBackgroundColor === '#383838' ? 'lightenText' : '';
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
-      href: "#",
+      href: attributes.url ? attributes.url : '#',
       className: "projectItem ".concat(hasDarkBackground) // If the post does not have a dark background we will assign the color of the text to #383838.
       ,
       style: !hasDarkBackground ? {

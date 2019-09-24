@@ -1,5 +1,5 @@
 
-const { PlainText, InspectorControls, PanelColorSettings, RichText, MediaUpload } = wp.editor;
+const { PlainText, InspectorControls, PanelColorSettings, RichText, MediaUpload, ExternalLink, URLInputButton } = wp.editor;
 const { registerBlockType } = wp.blocks;
 const { PanelBody, Button } = wp.components;
 
@@ -35,6 +35,13 @@ registerBlockType('project-block/main', {
         projectBackgroundColor: {
             type: 'string'
         },
+        url: {
+            type: 'string',
+        },
+        // This is likely the Page or Post title
+        linkText: {
+            type: 'string',
+        }
     },
     edit({ attributes, setAttributes }) {
 
@@ -119,6 +126,10 @@ registerBlockType('project-block/main', {
                 </PanelBody>
             </InspectorControls>,
             <div className="projectWrap" style={{ backgroundColor: attributes.projectBackgroundColor }}>
+                <URLInputButton
+                    url={attributes.url}
+                    onChange={(url, post) => setAttributes({ url, linkText: (post && post.title) || 'Click here' })}
+                />
                 <MediaUpload
                     onSelect={media => { setAttributes({ imageAlt: media.alt, imageUrl: media.url }); }}
                     type="image"
@@ -139,6 +150,7 @@ registerBlockType('project-block/main', {
                     placeholder="Add a description"
                     className={hasDarkBackground}
                 />
+
             </div>
         ];
     },
@@ -170,7 +182,7 @@ registerBlockType('project-block/main', {
         let hasDarkBackground = attributes.projectBackgroundColor === '#383838' ? 'lightenText' : '';
         return (
             <a
-                href="#"
+                href={attributes.url ? attributes.url : '#'}
                 className={`projectItem ${hasDarkBackground}`}
                 // If the post does not have a dark background we will assign the color of the text to #383838.
                 style={!hasDarkBackground ?

@@ -87,9 +87,12 @@ var _wp$editor = wp.editor,
     PlainText = _wp$editor.PlainText,
     InspectorControls = _wp$editor.InspectorControls,
     PanelColorSettings = _wp$editor.PanelColorSettings,
-    RichText = _wp$editor.RichText;
+    RichText = _wp$editor.RichText,
+    MediaUpload = _wp$editor.MediaUpload;
 var registerBlockType = wp.blocks.registerBlockType;
-var PanelBody = wp.components.PanelBody; // Define custom U Group logo for icon usage
+var _wp$components = wp.components,
+    PanelBody = _wp$components.PanelBody,
+    Button = _wp$components.Button; // Define custom U Group logo for icon usage
 
 var uGroupIcon = function uGroupIcon() {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("svg", {
@@ -115,6 +118,14 @@ registerBlockType('project-block/main', {
       source: 'children',
       selector: '.projectDescription'
     },
+    imageAlt: {
+      attribute: 'alt',
+      selector: '.card__image'
+    },
+    imageUrl: {
+      attribute: 'src',
+      selector: '.card__image'
+    },
     projectBackgroundColor: {
       type: 'string'
     }
@@ -127,7 +138,24 @@ registerBlockType('project-block/main', {
       setAttributes({
         projectBackgroundColor: newBackground
       });
-    } // Define custom colors. Great oppertunity for branding.
+    }
+
+    var getImageButton = function getImageButton(openEvent) {
+      if (attributes.imageUrl) {
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+          src: attributes.imageUrl,
+          onClick: openEvent,
+          className: "image"
+        });
+      } else {
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+          className: "button-container"
+        }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(Button, {
+          onClick: openEvent,
+          className: "button button-large"
+        }, "Pick an image"));
+      }
+    }; // Define custom colors. Great oppertunity for branding.
 
 
     var customColors = [{
@@ -171,7 +199,20 @@ registerBlockType('project-block/main', {
       style: {
         backgroundColor: attributes.projectBackgroundColor
       }
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PlainText, {
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
+      onSelect: function onSelect(media) {
+        setAttributes({
+          imageAlt: media.alt,
+          imageUrl: media.url
+        });
+      },
+      type: "image",
+      value: attributes.imageID,
+      render: function render(_ref2) {
+        var open = _ref2.open;
+        return getImageButton(open);
+      }
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PlainText, {
       onChange: function onChange(content) {
         return setAttributes({
           title: content
@@ -195,9 +236,30 @@ registerBlockType('project-block/main', {
       className: hasDarkBackground
     }))];
   },
-  save: function save(_ref2) {
-    var attributes = _ref2.attributes;
-    // Check if the background color is dark. If it is, we will assign a class to lighten the text
+  save: function save(_ref3) {
+    var attributes = _ref3.attributes;
+
+    var projectImage = function projectImage(src, alt) {
+      if (!src) return null;
+
+      if (alt) {
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+          className: "projectImage",
+          src: src,
+          alt: alt
+        });
+      } // No alt set, so let's hide it from screen readers
+
+
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+        className: "projectImage",
+        src: src,
+        alt: "",
+        "aria-hidden": "true"
+      });
+    }; // Check if the background color is dark. If it is, we will assign a class to lighten the text
+
+
     var hasDarkBackground = attributes.projectBackgroundColor === '#383838' ? 'lightenText' : '';
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
       href: "#",
@@ -209,7 +271,7 @@ registerBlockType('project-block/main', {
       } : {
         backgroundColor: attributes.projectBackgroundColor
       }
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    }, projectImage(attributes.imageUrl, attributes.imageAlt), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "projectContent"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", {
       className: "projectTitle ".concat(hasDarkBackground)

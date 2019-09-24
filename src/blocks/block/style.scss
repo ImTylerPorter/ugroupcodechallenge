@@ -7,4 +7,10 @@
 	&.lightenText {
 		color: #f7f7f7;
 	}
+	.projectImage {
+		height: 15.7rem;
+		width: 100%;
+		object-fit: cover;
+		object-position: center;
+	  }
 }

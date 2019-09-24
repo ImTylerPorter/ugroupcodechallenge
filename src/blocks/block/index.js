@@ -1,7 +1,7 @@
 
-const { PlainText, InspectorControls, PanelColorSettings, RichText } = wp.editor;
+const { PlainText, InspectorControls, PanelColorSettings, RichText, MediaUpload } = wp.editor;
 const { registerBlockType } = wp.blocks;
-const { PanelBody } = wp.components;
+const { PanelBody, Button } = wp.components;
 
 // Define custom U Group logo for icon usage
 const uGroupIcon = () => (
@@ -24,6 +24,14 @@ registerBlockType('project-block/main', {
             source: 'children',
             selector: '.projectDescription'
         },
+        imageAlt: {
+            attribute: 'alt',
+            selector: '.card__image'
+        },
+        imageUrl: {
+            attribute: 'src',
+            selector: '.card__image'
+        },
         projectBackgroundColor: {
             type: 'string'
         },
@@ -33,6 +41,30 @@ registerBlockType('project-block/main', {
         function onChangeBackgroundColor(newBackground) {
             setAttributes({ projectBackgroundColor: newBackground });
         }
+
+        const getImageButton = (openEvent) => {
+            if (attributes.imageUrl) {
+                return (
+                    <img
+                        src={attributes.imageUrl}
+                        onClick={openEvent}
+                        className="image"
+                    />
+                );
+            }
+            else {
+                return (
+                    <div className="button-container">
+                        <Button
+                            onClick={openEvent}
+                            className="button button-large"
+                        >
+                            Pick an image
+                        </Button>
+                    </div>
+                );
+            }
+        };
 
         // Define custom colors. Great oppertunity for branding.
         const customColors = [
@@ -87,6 +119,12 @@ registerBlockType('project-block/main', {
                 </PanelBody>
             </InspectorControls>,
             <div className="projectWrap" style={{ backgroundColor: attributes.projectBackgroundColor }}>
+                <MediaUpload
+                    onSelect={media => { setAttributes({ imageAlt: media.alt, imageUrl: media.url }); }}
+                    type="image"
+                    value={attributes.imageID}
+                    render={({ open }) => getImageButton(open)}
+                />
                 <PlainText
                     onChange={content => setAttributes({ title: content })}
                     value={attributes.title}
@@ -105,6 +143,29 @@ registerBlockType('project-block/main', {
         ];
     },
     save({ attributes }) {
+        const projectImage = (src, alt) => {
+            if (!src) return null;
+
+            if (alt) {
+                return (
+                    <img
+                        className="projectImage"
+                        src={src}
+                        alt={alt}
+                    />
+                );
+            }
+
+            // No alt set, so let's hide it from screen readers
+            return (
+                <img
+                    className="projectImage"
+                    src={src}
+                    alt=""
+                    aria-hidden="true"
+                />
+            );
+        };
         // Check if the background color is dark. If it is, we will assign a class to lighten the text
         let hasDarkBackground = attributes.projectBackgroundColor === '#383838' ? 'lightenText' : '';
         return (
@@ -115,6 +176,7 @@ registerBlockType('project-block/main', {
                 style={!hasDarkBackground ?
                     { color: '#383838', backgroundColor: attributes.projectBackgroundColor } :
                     { backgroundColor: attributes.projectBackgroundColor }}>
+                {projectImage(attributes.imageUrl, attributes.imageAlt)}
                 <div className="projectContent"  >
                     <h3 className={`projectTitle ${hasDarkBackground}`}>{attributes.title}</h3>
                     <div className={`projectDescription`} >
